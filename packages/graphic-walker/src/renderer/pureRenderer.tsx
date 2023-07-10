@@ -2,12 +2,15 @@ import React, { useState, useEffect, forwardRef, useMemo, useRef } from 'react';
 import { unstable_batchedUpdates } from 'react-dom';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import { ShadowDom } from '../shadow-dom';
+import AppRoot from '../components/appRoot';
 import type { IDarkMode, IViewField, IRow, IThemeKey, DraggableFieldState, IVisualConfig } from '../interfaces';
 import type { IReactVegaHandler } from '../vis/react-vega';
 import SpecRenderer from './specRenderer';
 import { useRenderer } from './hooks';
 
 interface IPureRendererProps {
+    name?: string;
     themeKey?: IThemeKey;
     dark?: IDarkMode;
     rawData?: IRow[];
@@ -19,8 +22,15 @@ interface IPureRendererProps {
  * Render a readonly chart with given visualization schema.
  * This is a pure component, which means it will not depend on any global state.
  */
-const PureRenderer = forwardRef<IReactVegaHandler, IPureRendererProps>(function PureRenderer(props, ref) {
-    const { themeKey, dark, rawData, visualState, visualConfig } = props;
+const PureRenderer = forwardRef<IReactVegaHandler, IPureRendererProps>(function PureRenderer (props, ref) {
+    const {
+        name,
+        themeKey,
+        dark,
+        rawData,
+        visualState,
+        visualConfig,
+    } = props;
     const defaultAggregated = visualConfig?.defaultAggregated ?? false;
 
     const [viewData, setViewData] = useState<IRow[]>([]);
@@ -68,15 +78,22 @@ const PureRenderer = forwardRef<IReactVegaHandler, IPureRendererProps>(function 
     }, [waiting]);
 
     return (
-        <SpecRenderer
-            loading={waiting}
-            data={viewData}
-            ref={ref}
-            themeKey={themeKey}
-            dark={dark}
-            draggableFieldState={visualState}
-            visualConfig={visualConfig}
-        />
+        <AppRoot>
+            <ShadowDom>
+                <div className="relative">
+                    <SpecRenderer
+                        name={name}
+                        loading={waiting}
+                        data={viewData}
+                        ref={ref}
+                        themeKey={themeKey}
+                        dark={dark}
+                        draggableFieldState={visualState}
+                        visualConfig={visualConfig}
+                    />
+                </div>
+            </ShadowDom>
+        </AppRoot>
     );
 });
 
