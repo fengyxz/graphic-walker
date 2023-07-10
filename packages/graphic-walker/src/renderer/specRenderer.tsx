@@ -18,6 +18,7 @@ import { useCurrentMediaTheme } from '../utils/media';
 import { builtInThemes } from '../vis/theme';
 
 interface SpecRendererProps {
+    name?: string;
     themeKey?: IThemeKey;
     dark?: IDarkMode;
     data: IRow[];
@@ -32,7 +33,7 @@ interface SpecRendererProps {
  * This is a pure component, which means it will not depend on any global state.
  */
 const SpecRenderer = forwardRef<IReactVegaHandler, SpecRendererProps>(function (
-    { themeKey, dark, data, loading, draggableFieldState, visualConfig, onGeomClick, onChartResize },
+    { name, themeKey, dark, data, loading, draggableFieldState, visualConfig, onGeomClick, onChartResize },
     ref
 ) {
     // const { draggableFieldState, visualConfig } = vizStore;
@@ -157,6 +158,7 @@ const SpecRenderer = forwardRef<IReactVegaHandler, SpecRendererProps>(function (
         >
             {loading && <LoadingLayer />}
             <ReactVega
+                name={name}
                 vegaConfig={vegaConfig}
                 // format={format}
                 layoutMode={size.mode}
