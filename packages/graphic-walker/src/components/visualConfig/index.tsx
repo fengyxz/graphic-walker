@@ -21,8 +21,6 @@ const VisualConfigPanel: React.FC = (props) => {
         'timeFormat',
         'normalizedNumberFormat',
     ];
-    const positionChannelConfigList: (keyof IVisualConfig['resolve'])[] = PositionChannelConfigList;
-    const nonPositionChannelConfigList: (keyof IVisualConfig['resolve'])[] = NonPositionChannelConfigList;
     const [format, setFormat] = useState<IVisualConfig['format']>({
         numberFormat: visualConfig.format.numberFormat,
         timeFormat: visualConfig.format.timeFormat,
@@ -91,7 +89,7 @@ const VisualConfigPanel: React.FC = (props) => {
                 ))}
                 <h2 className="text-lg">{t('config.background')}</h2>
                 <div className="my-2">
-                    <label className="block text-xs font-medium leading-6">{t(`constant.draggable_key.color`)}</label>
+                    <label className="block text-xs font-medium leading-6">{t(`config.color`)}</label>
                     <div className="mt-1">
                         <input
                             type="text"
@@ -106,7 +104,7 @@ const VisualConfigPanel: React.FC = (props) => {
                 <h2 className="text-lg">{t('config.independence')}</h2>
                 <div className="my-2">
                     <div className="flex space-x-6">
-                        {positionChannelConfigList.map((pc) => (
+                        {PositionChannelConfigList.map((pc) => (
                             <Toggle
                                 label={t(`config.${pc}`)}
                                 key={pc}
@@ -119,7 +117,7 @@ const VisualConfigPanel: React.FC = (props) => {
                                 }}
                             />
                         ))}
-                        {nonPositionChannelConfigList.map((npc) => (
+                        {NonPositionChannelConfigList.map((npc) => (
                             <Toggle
                                 label={t(`constant.draggable_key.${npc}`)}
                                 key={npc}

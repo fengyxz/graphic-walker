@@ -5,6 +5,7 @@
         "timeFormat": "時間の形式",
         "normalizedNumberFormat": "正規化された数字の形式",
         "background": "背景",
+        "color":"色",
         "independence": "独立性",
         "x": "x軸",
         "y": "y軸",
